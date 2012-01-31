@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="hello">Team Remix, we have ourselves an app!</string>
     <string name="app_name">GT Remix</string>
-
+    <string name="gtremix">GT Remix!</string>
+    <string name="media">Current Media</string>
+    <string name="dir">/mnt/sdcard/</string>
 </resources>

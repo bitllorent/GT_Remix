@@ -2,11 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="#222222"
     android:orientation="vertical" >
 
     <TextView
+        style="@style/GTRHeader"
+        android:id="@+id/title"
+        android:text="@string/gtremix" />
+    
+    <TextView
+        style="@style/GTRHeader"
+        android:id="@+id/media"
+        android:text="@string/media" />
+    
+    <TextView
+        style="@style/GTRSubHeader"
+        android:id="@+id/dir"
+        android:text="@string/dir" />
+    
+    <ScrollView
+        android:id="@+id/mediascroller"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/hello" />
-
+        android:layout_height="wrap_content">
+	    
+	    <LinearLayout
+	        android:id="@+id/medialist" 
+	        android:layout_height="500dp" 
+	        android:layout_width="fill_parent"
+	        android:orientation="vertical" >
+	    </LinearLayout>
+    </ScrollView>
+    
+    
 </LinearLayout>
