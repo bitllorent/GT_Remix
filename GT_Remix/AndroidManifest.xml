@@ -20,6 +20,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".views.GTR_BrowserActivity"
+            android:label="@string/currentdir"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+        
+        <activity
+            android:name=".views.GTR_PlaylistActivity"
+            android:label="@string/playlist"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+        
+        <activity
+            android:name=".views.GTR_AboutActivity"
+            android:label="@string/about"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+        
+        <activity
+            android:name=".views.GTR_SequencerActivity"
+            android:label="@string/sequencer"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+        
+        <activity
+            android:name=".views.GTR_SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
     </application>
 
 </manifest>

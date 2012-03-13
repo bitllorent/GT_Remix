@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Team Remix, we have ourselves an app!</string>
     <string name="app_name">GT Remix</string>
-    <string name="gtremix">GT Remix!</string>
     <string name="media">Current Media</string>
-    <string name="dir">/mnt/sdcard/</string>
+    <string name="currentdir"></string>
+    <string name="mediabutton">Open Media File</string>
+    <string name="loading">Loading...</string>
+    <string name="playlist">Playlist</string>
+    <string name="about">About GT Remix</string>
+    <string name="sequencer">Sequencer</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.gtremix.controllers;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -13,22 +14,36 @@ public class GTR_Controller {
 	public static final String TAG = "GTR_Controller: ";
 	private static GTR_Activity currentActivity;	
 	
-	public static void setCurrentActivity(GTR_Activity activity) {
-		currentActivity = activity;
+	public static GTR_Activity getCurrentActivity() {
+		return currentActivity;
+	}
+	
+	public static void setCurrentActivity(GTR_Activity a) {
+		currentActivity = a;
 	}
 	
 	public static Handler messageHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) 	{
 			Log.d(TAG, "Message recieved");
+			Message new_msg;
 			switch(msg.what){
-				case M.MESSAGE_INIT_MEDIA_PATH:
-					Message new_msg = Message.obtain(GTR_Model.messageHandler, msg.what, msg.obj); 
+				case M.MESSAGE_START_UP:
+					new_msg = Message.obtain(GTR_Model.messageHandler, msg.what, msg.obj); 
 		        	new_msg.sendToTarget();
-		        	Log.d(TAG, "Message sent");
+		        	Log.d(TAG, "MESSAGE_START_UP sent");
+					break;
+				case M.MESSAGE_NO_MEDIA_PATH:
+					Log.d(TAG, "No media path found");
 					break;
 				case M.MESSAGE_UPDATE:
 					currentActivity.update();
+					Log.d(TAG, "Updating Activity");
+					break;
+				case M.MESSAGE_OPEN_PATH:
+					new_msg = Message.obtain(GTR_Model.messageHandler, M.MESSAGE_OPEN_PATH, msg.obj);
+					new_msg.sendToTarget();
+					break;
 				default:break;
 			}
 		}

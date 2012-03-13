@@ -1,15 +1,11 @@
 package com.gtremix.views;
 
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.gtremix.R;
 import com.gtremix.controllers.GTR_Controller;
@@ -19,7 +15,7 @@ import com.gtremix.models.M;
 *	
 */
 
-public class GTR_MainActivity extends Activity implements GTR_Activity {
+public class GTR_MainActivity extends GTR_Activity implements OnClickListener {
     /** Called when the activity is first created. */
 	private final String TAG = "GTR_MainActivity: ";
 	
@@ -33,32 +29,69 @@ public class GTR_MainActivity extends Activity implements GTR_Activity {
         
         GTR_Controller.setCurrentActivity(this);
         
-        // Initialize media data
+        // Send message to controller to initialize everything
         data = new Bundle();
-        Message msg = Message.obtain(GTR_Controller.messageHandler, M.MESSAGE_INIT_MEDIA_PATH, data);
-        msg.sendToTarget();
-        
+        sendMessage(M.MESSAGE_START_UP, data);
+
+        //initialize all buttons
+        Button browserButton = (Button)findViewById(R.id.browse);
+        browserButton.setOnClickListener(this);
+
+        Button queueButton = (Button)findViewById(R.id.playlist);
+        queueButton.setOnClickListener(this);
+
+        Button aboutButton = (Button)findViewById(R.id.about);
+        aboutButton.setOnClickListener(this);
+
+        Button sequencerButton = (Button)findViewById(R.id.sequencer);
+        sequencerButton.setOnClickListener(this);
+
+        Button loadButton = (Button)findViewById(R.id.load);
+        loadButton.setOnClickListener(this);
+
+        Button settingsButton = (Button)findViewById(R.id.settings);
+        settingsButton.setOnClickListener(this);
     }
     
     public void update()
     {
-    	// get path and media
-    	String mediaPath = data.getString("PATH");
-    	TextView dir = (TextView)findViewById(R.id.dir);
-    	dir.setText(mediaPath);
-    			
-    	ArrayList<String> mediaFiles = data.getStringArrayList("MEDIA");
-    	LinearLayout mediaList = (LinearLayout)findViewById(R.id.medialist);
     	
-    	// first remove any previous Views from the list
-    	mediaList.removeAllViews();
-    	
-    	for(String s : mediaFiles) {
-    		Button b = new Button(this);
-    		b.setText(s);
-    		b.setTextColor(Color.WHITE);
-    		b.setBackgroundColor(0xff444444);
-    		mediaList.addView(b);
-    	}
     }
+
+	@Override
+	public void onClick(View v) {
+		Intent intent;
+		switch(v.getId()) {
+		case R.id.browse:
+			//TODO: startActivityForResult
+			intent = new Intent(this, GTR_BrowserActivity.class);
+			intent.putExtra(M.WHAT, M.ADD_SONG);
+			startActivity(intent);
+			break;
+		case R.id.playlist:
+			intent = new Intent(this, GTR_PlaylistActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.about:
+			intent = new Intent(this, GTR_AboutActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.sequencer:
+			intent = new Intent(this, GTR_SequencerActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.load:
+			//TODO: startActivityForResult
+			intent = new Intent(this, GTR_BrowserActivity.class);
+			intent.putExtra(M.WHAT, M.LOAD_SEQUENCE);
+			startActivity(intent);
+			break;
+		case R.id.settings:
+			intent = new Intent(this, GTR_SettingsActivity.class);
+			startActivity(intent);
+			break;
+		default:break;
+		}
+		
+	}
 }

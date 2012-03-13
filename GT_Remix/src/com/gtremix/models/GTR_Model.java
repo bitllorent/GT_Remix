@@ -1,7 +1,12 @@
 package com.gtremix.models;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,71 +22,219 @@ import com.gtremix.controllers.GTR_Controller;
 */
 public class GTR_Model {
 	
-	private static final String TAG = "GTR_Model: ";
+	private static final String TAG 		= "GTR_Model: ";
 	
-	private static String mainDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-	private static File mediaDir;
-
-	private static void getMediaPath(Bundle b) {
-		// TODO:implement initMediaPath that asks user for a directory and saves it to .ini file
-		
-		//search .ini file for saved directory, if not found, ask user to provide one
-		String mediaPath = "";
-		if(!(mediaPath.equals(""))) {
-			// TODO: send message to Controller asking for user input
-			return;
-		}
-
-		mediaPath = "Music";
-		mediaDir = new File(mainDir + File.separator + mediaPath);
-		b.putString("PATH", mediaDir.getName());
-		getMedia(b);
+	public static String env_dir 			= Environment.getExternalStorageDirectory().getAbsolutePath();
+	
+	private static final String app_path	= env_dir + "/remix_app";
+	private static final File app_dir		= new File(app_path);
+	private static final File seq_dir		= new File(app_path + "/seq");
+	private static final File ini_file 		= new File(app_path + "/gtr.txt");
+	
+	
+	
+	private static void startUp(Bundle b) {
+		//make sure we have an ini file to read from
+		affirmIniFile();	
 	}
 	
-	private static void getMedia(Bundle b) {
-		Log.d(TAG, "Searching in " + mediaDir.getName());
-		// get the names of all files in the media directory
-		String[] files = mediaDir.list();
-		ArrayList<String> music_files = new ArrayList<String>();
+	public static void affirmIniFile() {
+		BufferedReader reader;
 		
-		// check all files, if any music files are found, add them to our list
-		int l = files.length;
-		for(int i=0; i < l;i++) {
-			if(isMusicFile(files[i])) {
-				music_files.add(files[i]);
-				Log.d(TAG, "Music file found");
+		//try to open a FileReader 
+		try {
+			reader = getBufferedReader(ini_file);
+		} 
+		//if the file does not exist yet, create it
+		catch(FileNotFoundException fnfe) {
+			try {
+				Log.d(TAG, "Trying to create new file: " + ini_file.getAbsolutePath());
+				app_dir.mkdirs();
+				seq_dir.mkdirs();
+				ini_file.createNewFile();
+				BufferedWriter writer = getBufferedWriter(ini_file);
+				String eol = "\n";
+				writer.write(";GT Remix INI file" + eol);
+				writer.write(";Please do not edit!" + eol);
+				writer.write("media_path=" + eol);
+				writer.close();
+				reader = getBufferedReader(ini_file);
+			}
+			//if something goes wrong
+			catch(IOException ioe) {
+				Log.e(TAG, "Error occured while creating the file");
+				Log.e(TAG, ioe.getMessage());
+				ioe.printStackTrace();
+				System.exit(1);
 			}
 		}
-		
-		//finally put them in our Bundle so that the View can access them
-		b.putStringArrayList("MEDIA", music_files);
-		Log.d(TAG, "Data updated");
 	}
 	
+	/**
+	 * Gets all the filenames in the passed directory and stores them in the passed 
+	 * Bundle for delivery to the Controller.
+	 * 
+	 * @param b - the Bundle the ArrayList will be stored in
+	 * @param dir - the directory to search for files
+	 */
+	private static void getList(Bundle b, File dir) {
+		Log.d(TAG, "Searching in " + dir.getAbsolutePath());
+		// get the names of all files in the media directory
+		String[] list = dir.list();
+		
+		//put them in our Bundle so that the View can access them
+		b.putStringArray(M.KEY_ITEMS, list);
+	}
+	
+	/**
+	 * Simple test to determine if a file is a music file by looking at its extension
+	 * TODO: Either see if android has a native function like this or implement
+	 * 		 using a regex. (Low priority)
+	 * 
+	 * @param filename - The filename to check 
+	 * @return True if it is a music file, false otherwise
+	 */
 	private static boolean isMusicFile(String filename) {
-		Log.d(TAG, "Checking " + filename);
-		int l = filename.length();
-		if(filename.substring(l-4, l).equals(".mp3"))
+		int len = filename.length();
+		if(filename.substring(len-4, len).equals(".mp3"))
 		{
-			Log.d(TAG, "It is a music file");
 			return true;
 		}
 		return false;
 	}
 	
-	private static void update() {
-		Message msg = Message.obtain(GTR_Controller.messageHandler, M.MESSAGE_UPDATE);
+	/**
+	 * Reads the ini file and returns the value associated with the keyword name
+	 * 
+	 * @param name - the name of the value to search for
+	 * @return The value associated with name
+	 */
+	private static String parseIniFile(String name) {
+		String line;
+		try{
+			BufferedReader reader = getBufferedReader(ini_file);
+			while((line = reader.readLine()) != null) {
+				if(!isComment(line)) {	
+					int p = line.indexOf("=");
+					int len = line.length();
+					String line_name = line.substring(0, p);
+					String line_value = line.substring(p+1, len);
+					if(line_name.equals(name)) {
+						Log.d(TAG, "Read " + line_value + " for " + line_name);
+						return line_value;
+					}
+				}
+			}
+		}
+		catch(Exception e) {
+			Log.e(TAG, "Error ocurred parsing .INI file");
+			Log.e(TAG, e.getMessage());
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return "";
+	}
+	
+	/**
+	 * Updates the .ini file with new data to reflect any changes made to it
+	 * 
+	 * @param name - The name of the value that should be changed.
+	 * @param value - The value to change it to.
+	 */
+	private static void writeToIniFile(String name, String value) {
+		try {
+			BufferedReader reader = getBufferedReader(ini_file);
+			BufferedWriter writer = getBufferedWriter(ini_file);
+			
+			String eol = "\n";
+			String fileString = "";
+			String line;
+			while((line = reader.readLine()) != null) {
+				if(!isComment(line)) {
+					int p = line.indexOf("=");
+					String line_name = line.substring(0, p);
+					if(line_name.equals(name)) {
+						String new_line = line_name + "=" + value + eol;
+						fileString += new_line;
+					}
+					else 
+						fileString += line;
+				}
+				else {
+					fileString += line;
+				}
+			}
+			writer.write(fileString);
+			writer.close();
+		}
+		catch (Exception e) {
+			Log.e(TAG, "Exception thrown");
+			e.printStackTrace();
+		}
+	}
+
+	private static boolean isComment(String s) {
+		int i = 0;
+		while(Character.isWhitespace(s.charAt(i))) {
+			i++;
+		}
+		return s.charAt(i) == ';';
+	}
+
+	private static void sendMessage(int what) {
+		Message msg = Message.obtain(GTR_Controller.messageHandler, what);
 		msg.sendToTarget();
 	}
 	
+	private static void sendMessage(int what, Object o) {
+		Message msg = Message.obtain(GTR_Controller.messageHandler, what, o);
+		msg.sendToTarget();
+	}
+	
+	/**
+	 * Handles all the overhead for creating a BufferedWriter. Used to keep
+	 * code looking clean and keep the creation of file writers consistent.
+	 * 
+	 * @param filename - String containing the path to the file
+	 * @return A BufferedWriter for that file
+	 */
+	private static BufferedWriter getBufferedWriter(File file) 
+		throws IOException {
+		BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		return writer;
+	}
+	
+	/**
+	 * Handles all the overhead for creating a BufferedReader. Used to keep
+	 * code looking clean and keep the creation of file writers consistent.
+	 * 
+	 * @param filename - String containing the path to the file
+	 * @return A BufferedWriter for that file
+	 */
+	private static BufferedReader getBufferedReader(File file) 
+		throws FileNotFoundException {
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+		return reader;
+	}
+	
+	/**
+	 * The  Model's message Handler. 
+	 */
 	public static Handler messageHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg){
 			Log.d(TAG, "Message received");
 			switch(msg.what){
-			case M.MESSAGE_INIT_MEDIA_PATH: // The app has just started and must retrieve a stored media path or ask the user for a new one
-				getMediaPath((Bundle) msg.obj);
-				update(); // send a message indicating that data has changed and that the UI must update to reflect the changes
+			case M.MESSAGE_START_UP: // The app has just started and must retrieve a stored media path or tell the UI there isn't one.
+				startUp((Bundle) msg.obj);
+				break;
+			case M.MESSAGE_OPEN_PATH: //We are attempting to open a folder on the file system for the file browser
+				Bundle b = (Bundle)msg.obj;
+				String path = b.getString(M.KEY_PATH);
+				getList(b, new File(path));
+				GTR_Model.sendMessage(M.MESSAGE_UPDATE, b);
+				Log.d(TAG, "MESSAGE_UPDATE sent.");
+				break;
 			default:break;  
 			}
 		}
