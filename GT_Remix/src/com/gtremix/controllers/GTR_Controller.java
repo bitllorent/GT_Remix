@@ -41,9 +41,14 @@ public class GTR_Controller {
 					Log.d(TAG, "Updating Activity");
 					break;
 				case M.MESSAGE_OPEN_PATH:
+					Log.d(TAG, "MESSAGE_OPEN_PATH sent");
 					new_msg = Message.obtain(GTR_Model.messageHandler, M.MESSAGE_OPEN_PATH, msg.obj);
 					new_msg.sendToTarget();
 					break;
+				case M.ADD_SONG:
+					Log.d(TAG, "ADD_SONG sent");
+					new_msg = Message.obtain(GTR_Model.messageHandler, M.ADD_SONG, msg.obj);
+					new_msg.sendToTarget();
 				default:break;
 			}
 		}

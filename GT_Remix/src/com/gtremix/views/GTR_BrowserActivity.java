@@ -1,9 +1,11 @@
 package com.gtremix.views;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +40,8 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	//used to navigate file browser
 	private Stack<String> back_stack;
 	
+	private int what;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	Log.i(TAG, "Activity starting");
@@ -51,7 +55,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
         list = (LinearLayout)findViewById(R.id.list);
         
         //what we are using the browser for
-        int what = getIntent().getExtras().getInt(M.WHAT);
+        what = getIntent().getExtras().getInt(M.WHAT);
         if(what == M.ADD_SONG) {
         	data.putString(M.KEY_PATH, GTR_Model.env_dir);
         }
@@ -79,6 +83,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 			//finally create and add the new views
 	    	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 	    	lp.setMargins(0, 0, 0, 1);
+	    	Log.d(TAG, items.length + " items");
 	    	for(String s : items) {
 	    		if(s.charAt(0) != '.' ) { //doesn't show hidden files and folders
 		    		Button b = new Button(this);
@@ -158,7 +163,55 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	}
 	
 	private void openFile(String path){
+		ArrayList<String> items = new ArrayList<String>();
+		if(what == M.ADD_SONG){
+			if(isMusicFile(path))
+				items.add(path);
+			data.putStringArrayList(M.KEY_ITEMS, items);
+			sendMessage(M.ADD_SONG, data);
+			Intent intent = new Intent(this, GTR_PlaylistActivity.class);
+			startActivity(intent);
+		}
+		else if(what == M.LOAD_SEQUENCE){
+			if(isSeqFile(path))
+				items.add(path);
+			data.putStringArrayList(M.KEY_ITEMS, items);
+		}
 		
+	}
+	
+	/**
+	 * Simple test to determine if a file is a music file by looking at its extension
+	 * TODO: Either see if android has a native function like this or implement
+	 * 		 using a regex. (Low priority)
+	 * 
+	 * @param filename - The filename to check 
+	 * @return True if it is a music file, false otherwise
+	 */
+	private static boolean isMusicFile(String filename) {
+		int len = filename.length();
+		if(filename.substring(len-4, len).equals(".mp3"))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Simple test to determine if a file is a music file by looking at its extension
+	 * TODO: Either see if android has a native function like this or implement
+	 * 		 using a regex. (Low priority)
+	 * 
+	 * @param filename - The filename to check 
+	 * @return True if it is a music file, false otherwise
+	 */
+	private static boolean isSeqFile(String filename) {
+		int len = filename.length();
+		if(filename.substring(len-4, len).equals(".seq"))
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	 public boolean onKeyDown(int keyCode, KeyEvent event) {

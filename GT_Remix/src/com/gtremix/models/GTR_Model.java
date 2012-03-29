@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,14 +32,22 @@ public class GTR_Model {
 	private static final File seq_dir		= new File(app_path + "/seq");
 	private static final File ini_file 		= new File(app_path + "/gtr.txt");
 	
-	
+	private static ArrayList<String> playlist = new ArrayList<String>();
 	
 	private static void startUp(Bundle b) {
 		//make sure we have an ini file to read from
 		affirmIniFile();	
 	}
 	
-	public static void affirmIniFile() {
+	public static ArrayList<String> getPlaylist(){
+		return new ArrayList<String>(playlist);
+	}
+	
+	public static void addSong(String s){
+		playlist.add(s);
+	}
+	
+	private static void affirmIniFile() {
 		BufferedReader reader;
 		
 		//try to open a FileReader 
@@ -84,23 +93,6 @@ public class GTR_Model {
 		
 		//put them in our Bundle so that the View can access them
 		b.putStringArray(M.KEY_ITEMS, list);
-	}
-	
-	/**
-	 * Simple test to determine if a file is a music file by looking at its extension
-	 * TODO: Either see if android has a native function like this or implement
-	 * 		 using a regex. (Low priority)
-	 * 
-	 * @param filename - The filename to check 
-	 * @return True if it is a music file, false otherwise
-	 */
-	private static boolean isMusicFile(String filename) {
-		int len = filename.length();
-		if(filename.substring(len-4, len).equals(".mp3"))
-		{
-			return true;
-		}
-		return false;
 	}
 	
 	/**
@@ -224,14 +216,21 @@ public class GTR_Model {
 		@Override
 		public void handleMessage(Message msg){
 			Log.d(TAG, "Message received");
+			Bundle b;
 			switch(msg.what){
 			case M.MESSAGE_START_UP: // The app has just started and must retrieve a stored media path or tell the UI there isn't one.
 				startUp((Bundle) msg.obj);
 				break;
 			case M.MESSAGE_OPEN_PATH: //We are attempting to open a folder on the file system for the file browser
-				Bundle b = (Bundle)msg.obj;
+				b = (Bundle)msg.obj;
 				String path = b.getString(M.KEY_PATH);
 				getList(b, new File(path));
+				GTR_Model.sendMessage(M.MESSAGE_UPDATE, b);
+				Log.d(TAG, "MESSAGE_UPDATE sent.");
+				break;
+			case M.ADD_SONG:
+				b = (Bundle)msg.obj;
+				playlist.addAll(b.getStringArrayList(M.KEY_ITEMS));
 				GTR_Model.sendMessage(M.MESSAGE_UPDATE, b);
 				Log.d(TAG, "MESSAGE_UPDATE sent.");
 				break;
