@@ -11,6 +11,9 @@ public class M {
 	public static final int ADD_SONG		= 6;
 	public static final int LOAD_SEQUENCE	= 7;
 	
+	public static final int PLAY			= 8;
+	public static final int PAUSE			= 9;
+	
 	public static final String KEY_PATH		= "PATH";
 	public static final String KEY_ITEMS	= "ITEMS";
 	

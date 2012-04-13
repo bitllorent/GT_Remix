@@ -13,61 +13,112 @@
         android:layout_marginBottom="30dp" />
     
     <LinearLayout
+        android:layout_marginLeft="50dp"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp" >
+        android:layout_marginBottom="30dp">
         
         <Button
+            android:id="@+id/effect1"
+            android:text="Effect 1"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
         <Button
+            android:id="@+id/effect2"
+            android:text="Effect 2"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
         <Button
+            android:id="@+id/effect3"
+            android:text="Effect 3"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
     </LinearLayout>
     
     <LinearLayout
+        android:layout_marginLeft="50dp"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp" >
         <Button
+            android:id="@+id/effect4"
+            android:text="Effect 4"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
         <Button
+            android:id="@+id/effect5"
+            android:text="Effect 5"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
         <Button
+            android:id="@+id/effect6"
+            android:text="Effect 6"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
     </LinearLayout>
     
     <LinearLayout
+        android:layout_marginLeft="50dp"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
         <Button
+            android:id="@+id/effect7"
+            android:text="Effect 7"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
         <Button
+            android:id="@+id/effect8"
+            android:text="Effect 8"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
         <Button
+            android:id="@+id/effect9"
+            android:text="Effect 9"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:background="@drawable/orange_square"/>
+        	android:layout_height="wrap_content"/>
+            <!--android:background="@drawable/orange_square"/>-->
     </LinearLayout>
+    
+    <LinearLayout
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="50dp"
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+	    
+	    <Button
+	        android:id="@+id/rewind"
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+	        android:text="Rewind"/>
+	    <Button
+	        android:id="@+id/play"
+	        android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+	        android:text="Play"/>
+	    <Button
+	        android:id="@+id/skip"
+	        android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+	        android:text="Skip"/>
+	    <Button
+	        android:id="@+id/loop"
+	        android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+	        android:text="Loop"/>
+	        
+	</LinearLayout>
     
 
 </LinearLayout>

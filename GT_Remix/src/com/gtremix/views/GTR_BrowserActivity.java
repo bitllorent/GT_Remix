@@ -40,6 +40,8 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	//used to navigate file browser
 	private Stack<String> back_stack;
 	
+	private Button back, up, home;
+	
 	private int what;
 	
     @Override
@@ -47,8 +49,6 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
     	Log.i(TAG, "Activity starting");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.browser);
-        
-        GTR_Controller.setCurrentActivity(this);
         
         //initializations
         data = new Bundle();
@@ -65,34 +65,45 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
         sendMessage(M.MESSAGE_OPEN_PATH, data);
         
         back_stack = new Stack<String>();
+        
+        back = (Button)findViewById(R.id.back); back.setOnClickListener(this);
+        home = (Button)findViewById(R.id.home); home.setOnClickListener(this);
+        up = (Button)findViewById(R.id.up);		up.setOnClickListener(this);
+        
+        if(what != M.ADD_SONG){
+        	back.setVisibility(View.GONE);
+        	home.setVisibility(View.GONE);
+        	up.setVisibility(View.GONE);
+        }
     }
     
     public void update()
     {
+    	Log.d(TAG, "Updating BrowserActivity");
     	if(data.getString(M.KEY_PATH) != null) {
 	    	// get path and media
 	    	String path = data.getString(M.KEY_PATH);
 	    	TextView ls = (TextView)findViewById(R.id.title);
-	    	ls.setText(path);
-	    			
+	    	if(what == M.ADD_SONG) 
+	    		ls.setText("File Browser: " + path);
+	    	else if(what == M.LOAD_SEQUENCE) 
+	    		ls.setText("Browse Sequence Files");
+	    				
 	    	String[] items = data.getStringArray(M.KEY_ITEMS);
+	    	if(items == null) {
+	    		return;
+	    	}
 	    	
 	    	//remove any previous Views from the list
 	    	list.removeAllViews();
 	    	
 			//finally create and add the new views
-	    	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-	    	lp.setMargins(0, 0, 0, 1);
-	    	Log.d(TAG, items.length + " items");
+	    	//Log.d(TAG, items.length + " items");
 	    	for(String s : items) {
 	    		if(s.charAt(0) != '.' ) { //doesn't show hidden files and folders
 		    		Button b = new Button(this);
 		    		b.setText(s);
-		    		b.setTextSize(20);
-		    		b.setTextColor(Color.WHITE);
-		    		b.setBackgroundColor(0xff444444);
-		    		b.setGravity(Gravity.LEFT);
-		    		b.setLayoutParams(lp);
+		    		GTR_Controller.format(b);
 		    		b.setOnClickListener(this);
 		    		list.addView(b);
 	    		}
@@ -104,6 +115,17 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	public void onClick(View v) {
 		
 		switch(v.getId()) {
+		case R.id.back: 
+			Log.d(TAG, "Back button pressed");
+			try {goBackDir(); break;}
+			catch (EmptyStackException e) {}
+		case R.id.home:
+			Log.d(TAG, "Home button pressed");
+			changeDir(GTR_Model.env_dir); 
+			break;
+		case R.id.up:
+			Log.d(TAG, "Home button pressed");
+			break;
 		default:
 			Button b = (Button)v;
 			String old_path = data.getString(M.KEY_PATH);
@@ -138,10 +160,10 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 		sendMessage(M.MESSAGE_OPEN_PATH, data);
 	}
 	
-	private void goUpDir() throws EmptyStackException{
-		String path = back_stack.pop();
-		File f = new File(path);
+	private void goBackDir() throws EmptyStackException{
 		try{
+			String path = back_stack.pop();
+			File f = new File(path);
 			if( f.isDirectory() ) {
 				data.putString(M.KEY_PATH, path);
 			}
@@ -149,7 +171,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 				openFile(path);
 			}
 			else{
-				Log.e(TAG, "An error occurred, invalid file name read");
+				Log.e(TAG, "An error occurred, '" + path + "' is not a valid file name.");
 				System.exit(1);
 			}
 		}
@@ -165,12 +187,14 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	private void openFile(String path){
 		ArrayList<String> items = new ArrayList<String>();
 		if(what == M.ADD_SONG){
-			if(isMusicFile(path))
+			if(isMusicFile(path)){
 				items.add(path);
-			data.putStringArrayList(M.KEY_ITEMS, items);
-			sendMessage(M.ADD_SONG, data);
-			Intent intent = new Intent(this, GTR_PlaylistActivity.class);
-			startActivity(intent);
+				data.putStringArrayList(M.KEY_ITEMS, items);
+				sendMessage(M.ADD_SONG, data);
+				Intent intent = new Intent(this, GTR_PlaylistActivity.class);
+				startActivity(intent);
+			}
+			return;
 		}
 		else if(what == M.LOAD_SEQUENCE){
 			if(isSeqFile(path))
@@ -182,8 +206,6 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	
 	/**
 	 * Simple test to determine if a file is a music file by looking at its extension
-	 * TODO: Either see if android has a native function like this or implement
-	 * 		 using a regex. (Low priority)
 	 * 
 	 * @param filename - The filename to check 
 	 * @return True if it is a music file, false otherwise
@@ -198,12 +220,10 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	}
 	
 	/**
-	 * Simple test to determine if a file is a music file by looking at its extension
-	 * TODO: Either see if android has a native function like this or implement
-	 * 		 using a regex. (Low priority)
+	 * Simple test to determine if a file is a sequence file by looking at its extension
 	 * 
 	 * @param filename - The filename to check 
-	 * @return True if it is a music file, false otherwise
+	 * @return True if it is a sequence file, false otherwise
 	 */
 	private static boolean isSeqFile(String filename) {
 		int len = filename.length();
@@ -225,7 +245,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	    public boolean onKeyUp(int keyCode, KeyEvent event) {
 	        if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking() && !event.isCanceled()) {
 	        	try{
-	            	goUpDir();
+	            	goBackDir();
 	            	return true;
 	            }
 	        	catch(EmptyStackException e){}

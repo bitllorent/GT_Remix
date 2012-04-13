@@ -9,4 +9,7 @@
     <string name="about">About GT Remix</string>
     <string name="sequencer">Sequencer</string>
     <string name="settings">Settings</string>
+    <string name="info">GT Remix is a Senior Design Capstone Project at the Georgia Institute of Technology.
+        It was envisioned as a tool to experiment with audio manipulation and sound design on the Android platform.
+        GT Remix was designed and programmed by Kenneth Stewart, CJ Llorente, Eric Ethridge, and Ram Subramanian.  </string>
 </resources>

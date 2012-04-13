@@ -24,8 +24,6 @@ public class GTR_SettingsActivity extends GTR_Activity implements OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
         
-        GTR_Controller.setCurrentActivity(this);
-        
         data = new Bundle();
 
         //initialize all buttons

@@ -1,19 +1,18 @@
 package com.gtremix.views;
 
-import android.graphics.Color;
+import java.util.ArrayList;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.gtremix.R;
 import com.gtremix.controllers.GTR_Controller;
 import com.gtremix.models.GTR_Model;
-import com.gtremix.models.M;
 
 /** 
 *	
@@ -33,30 +32,23 @@ public class GTR_PlaylistActivity extends GTR_Activity implements OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.playlist);
         
-        GTR_Controller.setCurrentActivity(this);
-        
-        data = new Bundle();
-
-        //initialize all buttons
-        update();
+        data = new Bundle();      
+        list = (LinearLayout)findViewById(R.id.list);
     }
     
     public void update()
     {
+    	Log.d(TAG, "Updating PlaylistActivity");
     	//remove any previous Views from the list
     	list.removeAllViews();
     	
+    	ArrayList<String> songs = GTR_Controller.getPlaylist();
+    	
 		//finally create and add the new views
-    	LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    	lp.setMargins(0, 0, 0, 1);
-    	for(String s : GTR_Model.getPlaylist()) {
+    	for(String s : songs) {
     		Button b = new Button(this);
     		b.setText(s);
-    		b.setTextSize(20);
-    		b.setTextColor(Color.WHITE);
-    		b.setBackgroundColor(0xff444444);
-    		b.setGravity(Gravity.LEFT);
-    		b.setLayoutParams(lp);
+    		GTR_Controller.format(b);
     		b.setOnClickListener(this);
     		list.addView(b);
     	}
@@ -69,7 +61,12 @@ public class GTR_PlaylistActivity extends GTR_Activity implements OnClickListene
 			case 0:
 				//play the selected song
 				break;
-		default:break;
+		default:
+			Button b = (Button)v;
+			GTR_Controller.playSong((String)b.getText());
+			Intent intent = new Intent(this, GTR_SequencerActivity.class);
+			startActivity(intent);
+			break;
 		}
 		
 	}

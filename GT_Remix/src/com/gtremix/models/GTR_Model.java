@@ -32,20 +32,14 @@ public class GTR_Model {
 	private static final File seq_dir		= new File(app_path + "/seq");
 	private static final File ini_file 		= new File(app_path + "/gtr.txt");
 	
-	private static ArrayList<String> playlist = new ArrayList<String>();
+	
 	
 	private static void startUp(Bundle b) {
 		//make sure we have an ini file to read from
 		affirmIniFile();	
 	}
 	
-	public static ArrayList<String> getPlaylist(){
-		return new ArrayList<String>(playlist);
-	}
 	
-	public static void addSong(String s){
-		playlist.add(s);
-	}
 	
 	private static void affirmIniFile() {
 		BufferedReader reader;
@@ -225,12 +219,6 @@ public class GTR_Model {
 				b = (Bundle)msg.obj;
 				String path = b.getString(M.KEY_PATH);
 				getList(b, new File(path));
-				GTR_Model.sendMessage(M.MESSAGE_UPDATE, b);
-				Log.d(TAG, "MESSAGE_UPDATE sent.");
-				break;
-			case M.ADD_SONG:
-				b = (Bundle)msg.obj;
-				playlist.addAll(b.getStringArrayList(M.KEY_ITEMS));
 				GTR_Model.sendMessage(M.MESSAGE_UPDATE, b);
 				Log.d(TAG, "MESSAGE_UPDATE sent.");
 				break;

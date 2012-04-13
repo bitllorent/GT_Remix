@@ -56,5 +56,17 @@
         <item name="android:layout_marginTop">-10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
     </style>
+    
+    <style name="paragraph" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">#00222222</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_marginTop">-10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
 
 </resources>

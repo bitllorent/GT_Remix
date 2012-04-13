@@ -22,4 +22,10 @@ public abstract class GTR_Activity extends Activity {
 		Message msg = Message.obtain(GTR_Controller.messageHandler, what, data);
         msg.sendToTarget();
 	}
+	
+	@Override
+    public void onResume(){
+    	super.onResume();
+    	GTR_Controller.setCurrentActivity(this);
+    }
 }

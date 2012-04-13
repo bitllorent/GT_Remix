@@ -27,8 +27,6 @@ public class GTR_MainActivity extends GTR_Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        GTR_Controller.setCurrentActivity(this);
-        
         // Send message to controller to initialize everything
         data = new Bundle();
         sendMessage(M.MESSAGE_START_UP, data);
