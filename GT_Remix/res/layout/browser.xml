@@ -28,11 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Home"/>
-        <Button 
+        <!-- <Button 
             android:id="@+id/up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Up"/>
+            android:text="Up"/> -->
+            
+           <Button 
+               android:id="@+id/main"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="110dp"
+               android:text="Main Menu" />"
         
     </LinearLayout> 
     

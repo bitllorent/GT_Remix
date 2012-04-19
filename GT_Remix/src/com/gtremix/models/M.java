@@ -13,8 +13,12 @@ public class M {
 	
 	public static final int PLAY			= 8;
 	public static final int PAUSE			= 9;
+	public static final int NEXT_SONG		= 10;
+	public static final int PREV_SONG		= 11;
+	public static final int SAVE_SEQUENCE	= 12;
 	
 	public static final String KEY_PATH		= "PATH";
+	public static final String KEY_FILE		= "FILE";
 	public static final String KEY_ITEMS	= "ITEMS";
 	
 	public static final String WHAT			= "WHAT";

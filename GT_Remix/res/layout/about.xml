@@ -17,5 +17,12 @@
         style="@style/paragraph"
         android:text="@string/info"
         android:gravity="center_horizontal|center_vertical" />
+    
+    <Button
+        android:id="@+id/back"
+        style="@style/GTRMainButton"
+        android:text="Main Menu"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="40dp"/>"
 
 </LinearLayout>

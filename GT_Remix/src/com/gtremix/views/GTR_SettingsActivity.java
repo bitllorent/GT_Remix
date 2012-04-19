@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.gtremix.R;
-import com.gtremix.controllers.GTR_Controller;
 
 /** 
 *	

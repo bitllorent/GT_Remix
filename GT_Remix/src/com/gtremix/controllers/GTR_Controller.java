@@ -40,6 +40,12 @@ public class GTR_Controller {
 	private static boolean looping = false;
 	private static boolean playing = false;
 	
+	private static Sequence currentSequence = new Sequence();
+	
+	public static void applyEffect(int index, float param) {
+		currentSequence.applyEffect(index, param);
+	}
+	
 	public static ArrayList<String> getPlaylist(){
 		return new ArrayList<String>(playlist);
 	}
@@ -51,26 +57,39 @@ public class GTR_Controller {
 	public static void playSong(int index) {
 		Log.d(TAG, "Now playing: " + nowPlaying);
 		nowPlaying = playlist.get(index);
+		playing = true;
 		//play(nowPlaying);
 	}
 	
 	public static void playSong(String s) {
 		Log.d(TAG, "Now playing: " + nowPlaying);
 		nowPlaying = s;
+		playing = true;
 		//play(nowPlaying);
+	}
+	
+	public static void play() {
+		//play(nowPlaying);
+		playing = true;
+	}
+	
+	public static void pause() {
+		//pause();
+		playing = false;
 	}
 	
 	public static void nextSong() {
 		int index = playlist.indexOf(nowPlaying);
 		index++;
 		if(index < playlist.size()) {
-			Log.d(TAG, "Playing next song: " + nowPlaying);
 			nowPlaying = playlist.get(index);
+			Log.d(TAG, "Playing song: " + nowPlaying);
 			//play(nowPlaying);
 		}
 		else if(looping){
 			index = 0;
 			nowPlaying = playlist.get(index);
+			Log.d(TAG, "Playing song: " + nowPlaying);
 			//play(nowPlaying);
 		}
 		else {
@@ -78,11 +97,40 @@ public class GTR_Controller {
 		}
 	}
 	
+	public static void prevSong() {
+		int index = playlist.indexOf(nowPlaying);
+		index--;
+		if(index >= 0) {
+			nowPlaying = playlist.get(index);
+			//play(nowPlaying);
+		}
+		else {
+			index = 0;
+			nowPlaying = playlist.get(index);
+			//play(nowPlaying);
+		}
+		Log.d(TAG, "Playing song: " + nowPlaying);
+	}
+	
+	public static boolean playing(){
+		return playing;
+	}
+	
+	public static boolean looping(){
+		return looping;
+	}
+	
+	public static void setLoop(boolean b) {
+		looping = b;
+		currentActivity.update();
+	}
+	
 	public static Handler messageHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) 	{
 			Log.d(TAG, "Message recieved");
 			Message new_msg;
+			Bundle b;
 			switch(msg.what){
 				case M.MESSAGE_START_UP:
 					new_msg = Message.obtain(GTR_Model.messageHandler, msg.what, msg.obj);
@@ -102,9 +150,35 @@ public class GTR_Controller {
 					new_msg.sendToTarget();
 					break;
 				case M.ADD_SONG:
-					Bundle b = (Bundle)msg.obj;
-					playlist.addAll(b.getStringArrayList(M.KEY_ITEMS));
+					b = (Bundle)msg.obj;
+					playlist.add(b.getString(M.KEY_FILE));
 					break;
+				case M.LOAD_SEQUENCE:
+					b = (Bundle)msg.obj;
+					currentSequence = new Sequence(b.getString(M.KEY_PATH));
+					break;
+				case M.PLAY:
+					Log.d(TAG, "Message PLAY recieved");
+					play();
+					currentActivity.update();
+					break;
+				case M.PAUSE:
+					Log.d(TAG, "Message PAUSE recieved");
+					pause();
+					currentActivity.update();
+					break;
+				case M.NEXT_SONG:
+					Log.d(TAG, "Message NEXT_SONG recieved");
+					nextSong();
+					break;
+				case M.PREV_SONG:
+					Log.d(TAG, "Message PREV_SONG recieved");
+					prevSong();
+					break;
+				case M.SAVE_SEQUENCE:
+					Log.d(TAG, "Saving current sequence");
+					b = (Bundle)msg.obj;
+					currentSequence.save(b.getString(M.KEY_PATH));
 				default:break;
 			}
 		}

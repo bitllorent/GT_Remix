@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,10 +26,10 @@ public class GTR_Model {
 	
 	public static String env_dir 			= Environment.getExternalStorageDirectory().getAbsolutePath();
 	
-	private static final String app_path	= env_dir + "/remix_app";
+	public static final String app_path	= env_dir + "/remix_app/";
 	private static final File app_dir		= new File(app_path);
-	private static final File seq_dir		= new File(app_path + "/seq");
-	private static final File ini_file 		= new File(app_path + "/gtr.txt");
+	public static final File seq_dir		= new File(app_path + "seq/");
+	private static final File ini_file 		= new File(app_path + "gtr.txt");
 	
 	
 	

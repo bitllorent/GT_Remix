@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.gtremix.R;
-import com.gtremix.controllers.GTR_Controller;
 import com.gtremix.models.M;
 
 /** 
@@ -44,11 +43,12 @@ public class GTR_MainActivity extends GTR_Activity implements OnClickListener {
         Button sequencerButton = (Button)findViewById(R.id.sequencer);
         sequencerButton.setOnClickListener(this);
 
-        Button loadButton = (Button)findViewById(R.id.load);
-        loadButton.setOnClickListener(this);
+        //Button loadButton = (Button)findViewById(R.id.load);
+        //loadButton.setOnClickListener(this);
 
-        Button settingsButton = (Button)findViewById(R.id.settings);
-        settingsButton.setOnClickListener(this);
+        //Button settingsButton = (Button)findViewById(R.id.settings);
+        //settingsButton.setOnClickListener(this); 
+        
     }
     
     public void update()
@@ -78,7 +78,7 @@ public class GTR_MainActivity extends GTR_Activity implements OnClickListener {
 			intent = new Intent(this, GTR_SequencerActivity.class);
 			startActivity(intent);
 			break;
-		case R.id.load:
+		/*case R.id.load:
 			//TODO: startActivityForResult
 			intent = new Intent(this, GTR_BrowserActivity.class);
 			intent.putExtra(M.WHAT, M.LOAD_SEQUENCE);
@@ -87,7 +87,7 @@ public class GTR_MainActivity extends GTR_Activity implements OnClickListener {
 		case R.id.settings:
 			intent = new Intent(this, GTR_SettingsActivity.class);
 			startActivity(intent);
-			break;
+			break;*/
 		default:break;
 		}
 		

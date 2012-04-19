@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 
 import com.gtremix.R;
 import com.gtremix.controllers.GTR_Controller;
-import com.gtremix.models.GTR_Model;
 
 /** 
 *	
@@ -34,6 +33,9 @@ public class GTR_PlaylistActivity extends GTR_Activity implements OnClickListene
         
         data = new Bundle();      
         list = (LinearLayout)findViewById(R.id.list);
+        
+        Button main = (Button)findViewById(R.id.main);
+        main.setOnClickListener(this);
     }
     
     public void update()
@@ -56,17 +58,18 @@ public class GTR_PlaylistActivity extends GTR_Activity implements OnClickListene
 
 	@Override
 	public void onClick(View v) {
-		
+		Intent intent;
 		switch(v.getId()) {
-			case 0:
-				//play the selected song
+			case R.id.main:
+				intent = new Intent(this, GTR_MainActivity.class);
+				startActivity(intent);
 				break;
-		default:
-			Button b = (Button)v;
-			GTR_Controller.playSong((String)b.getText());
-			Intent intent = new Intent(this, GTR_SequencerActivity.class);
-			startActivity(intent);
-			break;
+			default:
+				Button b = (Button)v;
+				GTR_Controller.playSong((String)b.getText());
+				intent = new Intent(this, GTR_SequencerActivity.class);
+				startActivity(intent);
+				break;
 		}
 		
 	}

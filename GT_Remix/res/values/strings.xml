@@ -4,7 +4,8 @@
     <string name="media">Current Media</string>
     <string name="currentdir"></string>
     <string name="mediabutton">Open Media File</string>
-    <string name="loading">Loading...</string>
+    <string name="save">Save</string>
+    <string name="load">Load</string>
     <string name="playlist">Playlist</string>
     <string name="about">About GT Remix</string>
     <string name="sequencer">Sequencer</string>
@@ -12,4 +13,21 @@
     <string name="info">GT Remix is a Senior Design Capstone Project at the Georgia Institute of Technology.
         It was envisioned as a tool to experiment with audio manipulation and sound design on the Android platform.
         GT Remix was designed and programmed by Kenneth Stewart, CJ Llorente, Eric Ethridge, and Ram Subramanian.  </string>
+        
+    <string name="button1">Browse Music Files</string>
+    <string name="button2">Playlist</string>
+    <string name="button3">About</string>
+    <string name="button4">Sequencer</string>
+    <string name="button5">Load Sequence</string>
+    <string name="button6">Settings</string>
+    
+    <string name="effect1">Hi-pass filter</string>
+    <string name="effect2">Reverb</string>
+    <string name="effect3">Delay</string>
+    <string name="effect4">Lo-pass filter</string>
+    <string name="effect5">Chorus</string>
+    <string name="effect6">Effect</string>
+    <string name="effect7">Effect</string>
+    <string name="effect8">Effect</string>
+    <string name="effect9">Effect</string>
 </resources>

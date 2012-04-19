@@ -11,6 +11,12 @@
         android:text="@string/playlist"
         android:gravity="center_horizontal|center_vertical"
         android:layout_marginBottom="30dp" />
+        
+    <Button 
+    	android:id="@+id/main"
+    	android:text="Main Menu"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"/>
     
     <ScrollView
         android:layout_width="fill_parent"

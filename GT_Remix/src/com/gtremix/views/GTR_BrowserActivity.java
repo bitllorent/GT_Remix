@@ -6,10 +6,8 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,7 +38,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	//used to navigate file browser
 	private Stack<String> back_stack;
 	
-	private Button back, up, home;
+	private Button back, main, home;
 	
 	private int what;
 	
@@ -68,12 +66,12 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
         
         back = (Button)findViewById(R.id.back); back.setOnClickListener(this);
         home = (Button)findViewById(R.id.home); home.setOnClickListener(this);
-        up = (Button)findViewById(R.id.up);		up.setOnClickListener(this);
+        main = (Button)findViewById(R.id.main);	main.setOnClickListener(this);
         
         if(what != M.ADD_SONG){
         	back.setVisibility(View.GONE);
         	home.setVisibility(View.GONE);
-        	up.setVisibility(View.GONE);
+        	main.setVisibility(View.GONE);
         }
     }
     
@@ -123,8 +121,10 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 			Log.d(TAG, "Home button pressed");
 			changeDir(GTR_Model.env_dir); 
 			break;
-		case R.id.up:
-			Log.d(TAG, "Home button pressed");
+		case R.id.main:
+			Log.d(TAG, "Main menu button pressed");
+			Intent intent = new Intent(this, GTR_MainActivity.class);
+			startActivity(intent);
 			break;
 		default:
 			Button b = (Button)v;
@@ -147,7 +147,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 				openFile(path);
 			}
 			else{
-				Log.e(TAG, "An error occurred, invalid file name read");
+				Log.e(TAG, "An error occurred, invalid file name: " + f.getAbsolutePath());
 				System.exit(1);
 			}
 		}
@@ -188,8 +188,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 		ArrayList<String> items = new ArrayList<String>();
 		if(what == M.ADD_SONG){
 			if(isMusicFile(path)){
-				items.add(path);
-				data.putStringArrayList(M.KEY_ITEMS, items);
+				data.putString(M.KEY_FILE, path);
 				sendMessage(M.ADD_SONG, data);
 				Intent intent = new Intent(this, GTR_PlaylistActivity.class);
 				startActivity(intent);
@@ -197,9 +196,12 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 			return;
 		}
 		else if(what == M.LOAD_SEQUENCE){
-			if(isSeqFile(path))
-				items.add(path);
-			data.putStringArrayList(M.KEY_ITEMS, items);
+			if(isSeqFile(path)){
+				data.putString(M.KEY_FILE, path);
+				sendMessage(M.LOAD_SEQUENCE, data);
+				Intent intent = new Intent(this, GTR_SequencerActivity.class);
+				startActivity(intent);
+			}
 		}
 		
 	}

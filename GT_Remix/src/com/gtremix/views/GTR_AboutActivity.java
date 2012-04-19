@@ -1,9 +1,11 @@
 package com.gtremix.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.gtremix.R;
 import com.gtremix.controllers.GTR_Controller;
@@ -29,6 +31,8 @@ public class GTR_AboutActivity extends GTR_Activity implements OnClickListener {
         data = new Bundle();
 
         //initialize all buttons
+        Button back = (Button)findViewById(R.id.back);
+        back.setOnClickListener(this);
     }
     
     public void update()
@@ -40,7 +44,10 @@ public class GTR_AboutActivity extends GTR_Activity implements OnClickListener {
 	public void onClick(View v) {
 		
 		switch(v.getId()) {
-			case 0: break;
+			case R.id.back:
+				Intent intent = new Intent(this, GTR_MainActivity.class);
+				startActivity(intent);
+				break;
 		default:break;
 		}
 		

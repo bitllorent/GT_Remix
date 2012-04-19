@@ -25,19 +25,14 @@
 	        <Button
 	            style="@style/GTRMainButton"
 	            android:id="@+id/browse"
-	            android:background="@drawable/music_folder"
-	            android:layout_marginBottom="30dp" />
+	            android:text="@string/button1"
+	            android:layout_marginBottom="30dp" /> 
 	
 	        <Button
 	            android:id="@+id/playlist"
-	            style="@style/GTRMainButton" 
-	            android:background="@drawable/sphere"
-	            android:layout_marginBottom="30dp"/>
-	
-	        <Button
-	            android:id="@+id/about"
 	            style="@style/GTRMainButton"
-	            android:background="@drawable/file_folder" />
+	            android:text="@string/button2" 
+	            android:layout_marginBottom="30dp"/>
 	
 	    </LinearLayout>
 	
@@ -49,49 +44,18 @@
 	
 	        <Button
 	            android:id="@+id/sequencer"
-	            style="@style/GTRMainButton" 
-	            android:background="@drawable/burn"
-	            android:layout_marginBottom="30dp"/>
-	
-	        <Button
-	            android:id="@+id/load"
-	            style="@style/GTRMainButton" 
-	            android:background="@drawable/file_folder"
-	            android:layout_marginBottom="30dp"/>
-	
-	
-	        <Button
-	            android:id="@+id/settings"
 	            style="@style/GTRMainButton"
-	            android:background="@drawable/settings" />
+	            android:text="@string/button4"
+	            android:layout_marginBottom="30dp"/>
+	
+	        <Button
+	            android:id="@+id/about"
+	            style="@style/GTRMainButton" 
+	            android:text="@string/button3"
+	            android:layout_marginBottom="30dp" />
 	
 	    </LinearLayout>
 
-	</LinearLayout>
-	
-	<!--  
-	<LinearLayout
-	    android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-	    
-	    <Button
-	        android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-	        android:id="@+id/rewind"
-	        android:text="Rewind"/>
-	    <Button
-	        android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-	        android:id="@+id/play"
-	        android:text="Play"/>
-	    <Button
-	        android:layout_width="wrap_content"
-       		android:layout_height="wrap_content"
-	        android:id="@+id/skip"
-	        android:text="Skip"/>
-	        
-	    
-	</LinearLayout>-->
+	</LinearLayout>	
 
 </LinearLayout>
