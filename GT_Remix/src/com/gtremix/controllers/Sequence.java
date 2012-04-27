@@ -12,16 +12,16 @@ import com.gtremix.models.GTR_Model;
 import android.util.Log;
 
 public class Sequence {
-	public final int NUM_PARAM = 9;
-	public float[] effect_params;
+	public final int NUM_PARAM = 5;
+	public int[] effect_params;
 	
 	public Sequence(){
-		effect_params = new float[NUM_PARAM];
+		effect_params = new int[NUM_PARAM];
 		
 	}
 	
 	public Sequence(String filename){
-		effect_params = new float[9];
+		effect_params = new int[NUM_PARAM];
 		File file = new File(filename);
 		BufferedReader reader;
 		try{
@@ -30,7 +30,7 @@ public class Sequence {
 			while((line = reader.readLine()) != null){
 				int pivot = line.indexOf(' ');
 				int index = Integer.parseInt(line.substring(0, pivot));
-				float param = Float.parseFloat(line.substring(pivot+1));
+				int param = Integer.parseInt(line.substring(pivot+1));
 				effect_params[index] = param;
 			}
 			reader.close();
@@ -63,10 +63,10 @@ public class Sequence {
 		//effect_params[index] = param;
 		
 		//TODO: delete this when sliders are implemented
-		if(effect_params[index] == 0.0f)
-			effect_params[index] = 1.0f;
+		if(effect_params[index] == 0)
+			effect_params[index] = 1;
 		else
-			effect_params[index] = 0.0f;
+			effect_params[index] = 0;
 	}
 	
 	private void handleException(Exception e){

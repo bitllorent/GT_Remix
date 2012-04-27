@@ -159,7 +159,7 @@ public class GTR_Controller {
 					break;
 				case M.LOAD_SEQUENCE:
 					b = (Bundle)msg.obj;
-					currentSequence = new Sequence(b.getString(M.KEY_PATH));
+					currentSequence = new Sequence(b.getString(M.KEY_FILE));
 					break;
 				case M.PLAY:
 					Log.d(TAG, "Message PLAY recieved");

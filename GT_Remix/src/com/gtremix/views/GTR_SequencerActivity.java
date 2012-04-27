@@ -89,16 +89,31 @@ public class GTR_SequencerActivity extends GTR_Activity implements OnClickListen
 		}
     	
     	Sequence seq = GTR_Controller.getSequence();
-    	if(seq.effect_params[0] == 1.0)
+    	Log.d(TAG, "Seq params:");
+    	Log.d(TAG, "" + seq.effect_params[0]);
+    	Log.d(TAG, "" + seq.effect_params[1]);
+    	Log.d(TAG, "" + seq.effect_params[2]);
+    	Log.d(TAG, "" + seq.effect_params[3]);
+    	Log.d(TAG, "" + seq.effect_params[4]);
+    	if(seq.effect_params[0] == 1)
     		effect1.setChecked(true);
-    	if(seq.effect_params[1] == 1.0)
+    	else effect1.setChecked(false);
+    	
+    	if(seq.effect_params[1] == 1)
     		effect2.setChecked(true);
-    	if(seq.effect_params[2] == 1.0)
+    	else effect2.setChecked(false);
+    	
+    	if(seq.effect_params[2] == 1)
     		effect3.setChecked(true);
-    	if(seq.effect_params[3] == 1.0)
+    	else effect3.setChecked(false);
+    	
+    	if(seq.effect_params[3] == 1)
     		effect4.setChecked(true);
-    	if(seq.effect_params[4] == 1.0)
+    	else effect4.setChecked(false);
+    	
+    	if(seq.effect_params[4] == 1)
     		effect5.setChecked(true);
+    	else effect5.setChecked(false);
     }
     
     public void play() {
