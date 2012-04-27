@@ -19,24 +19,27 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp">
         
-        <Button
+        <ToggleButton
             android:id="@+id/effect1"
-            android:text="@string/effect1"
+            android:textOn="@string/effect1"
+            android:textOff="@string/effect1"
             android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"/>
-            <!--android:background="@drawable/orange_square"/>-->
-        <Button
+        	android:layout_height="wrap_content" />
+            
+        <ToggleButton
             android:id="@+id/effect2"
-            android:text="@string/effect2"
+            android:textOn="@string/effect2"
+            android:textOff="@string/effect2"
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"/>
-            <!--android:background="@drawable/orange_square"/>-->
-        <Button
+            
+        <ToggleButton
             android:id="@+id/effect3"
-            android:text="@string/effect3"
+            android:textOn="@string/effect3"
+            android:textOff="@string/effect3"
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"/>
-            <!--android:background="@drawable/orange_square"/>-->
+            
     </LinearLayout>
     
     <LinearLayout
@@ -45,15 +48,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp" >
-        <Button
+        <ToggleButton
             android:id="@+id/effect4"
-            android:text="@string/effect4"
+            android:textOn="@string/effect4"
+            android:textOff="@string/effect4"
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"/>
-            <!--android:background="@drawable/orange_square"/>-->
-        <Button
+            
+        <ToggleButton
             android:id="@+id/effect5"
-            android:text="@string/effect5"
+            android:textOn="@string/effect5"
+            android:textOff="@string/effect5"
             android:layout_width="wrap_content"
         	android:layout_height="wrap_content"/>
          <!--

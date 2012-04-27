@@ -45,8 +45,9 @@ public class GTR_AboutActivity extends GTR_Activity implements OnClickListener {
 		
 		switch(v.getId()) {
 			case R.id.back:
-				Intent intent = new Intent(this, GTR_MainActivity.class);
-				startActivity(intent);
+				finish();
+				//Intent intent = new Intent(this, GTR_MainActivity.class);
+				//startActivity(intent);
 				break;
 		default:break;
 		}

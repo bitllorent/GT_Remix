@@ -23,6 +23,10 @@ public class GTR_Controller {
 		return currentActivity;
 	}
 	
+	public static Sequence getSequence() {
+		return currentSequence;
+	}
+	
 	public static void setCurrentActivity(GTR_Activity a) {
 		currentActivity = a;
 		currentActivity.update();
@@ -55,17 +59,17 @@ public class GTR_Controller {
 	}
 	
 	public static void playSong(int index) {
-		Log.d(TAG, "Now playing: " + nowPlaying);
 		nowPlaying = playlist.get(index);
 		playing = true;
 		//play(nowPlaying);
+		Log.d(TAG, "Now playing: " + nowPlaying);
 	}
 	
 	public static void playSong(String s) {
-		Log.d(TAG, "Now playing: " + nowPlaying);
 		nowPlaying = s;
 		playing = true;
 		//play(nowPlaying);
+		Log.d(TAG, "Now playing: " + nowPlaying);
 	}
 	
 	public static void play() {

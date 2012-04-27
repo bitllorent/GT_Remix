@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import com.gtremix.R;
 import com.gtremix.controllers.GTR_Controller;
+import com.gtremix.controllers.Sequence;
 import com.gtremix.models.M;
 
 /** 
@@ -31,6 +33,8 @@ public class GTR_SequencerActivity extends GTR_Activity implements OnClickListen
 	
 	private Button play, loop;
 	
+	private ToggleButton effect1, effect2, effect3, effect4, effect5;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	Log.i(TAG, "Activity starting");
@@ -40,11 +44,11 @@ public class GTR_SequencerActivity extends GTR_Activity implements OnClickListen
         data = new Bundle();
 
         //initialize all buttons
-        Button effect1 = (Button)findViewById(R.id.effect1); effect1.setOnClickListener(this);
-        Button effect2 = (Button)findViewById(R.id.effect2); effect2.setOnClickListener(this);
-        Button effect3 = (Button)findViewById(R.id.effect3); effect3.setOnClickListener(this);
-        Button effect4 = (Button)findViewById(R.id.effect4); effect4.setOnClickListener(this);
-        Button effect5 = (Button)findViewById(R.id.effect5); effect5.setOnClickListener(this);
+        effect1 = (ToggleButton)findViewById(R.id.effect1); effect1.setOnClickListener(this);
+        effect2 = (ToggleButton)findViewById(R.id.effect2); effect2.setOnClickListener(this);
+        effect3 = (ToggleButton)findViewById(R.id.effect3); effect3.setOnClickListener(this);
+        effect4 = (ToggleButton)findViewById(R.id.effect4); effect4.setOnClickListener(this);
+        effect5 = (ToggleButton)findViewById(R.id.effect5); effect5.setOnClickListener(this);
         /*Button effect6 = (Button)findViewById(R.id.effect6); effect6.setOnClickListener(this);
         Button effect7 = (Button)findViewById(R.id.effect7); effect7.setOnClickListener(this);
         Button effect8 = (Button)findViewById(R.id.effect8); effect8.setOnClickListener(this);
@@ -83,6 +87,18 @@ public class GTR_SequencerActivity extends GTR_Activity implements OnClickListen
 		else {
 			loop.setText("Loop");
 		}
+    	
+    	Sequence seq = GTR_Controller.getSequence();
+    	if(seq.effect_params[0] == 1.0)
+    		effect1.setChecked(true);
+    	if(seq.effect_params[1] == 1.0)
+    		effect2.setChecked(true);
+    	if(seq.effect_params[2] == 1.0)
+    		effect3.setChecked(true);
+    	if(seq.effect_params[3] == 1.0)
+    		effect4.setChecked(true);
+    	if(seq.effect_params[4] == 1.0)
+    		effect5.setChecked(true);
     }
     
     public void play() {
@@ -170,9 +186,10 @@ public class GTR_SequencerActivity extends GTR_Activity implements OnClickListen
 					Log.d(TAG, "Looping");
 				}
 				break;
-			case R.id.back: 
-				Intent intent = new Intent(this, GTR_MainActivity.class);
-				startActivity(intent);
+			case R.id.back:
+				finish();
+				//Intent intent = new Intent(this, GTR_MainActivity.class);
+				//startActivity(intent);
 			default:break;
 		}
 		

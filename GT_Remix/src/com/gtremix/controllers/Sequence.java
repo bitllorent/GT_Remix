@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class Sequence {
 	public final int NUM_PARAM = 9;
-	float[] effect_params;
+	public float[] effect_params;
 	
 	public Sequence(){
 		effect_params = new float[NUM_PARAM];

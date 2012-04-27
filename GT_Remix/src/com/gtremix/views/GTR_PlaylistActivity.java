@@ -61,14 +61,14 @@ public class GTR_PlaylistActivity extends GTR_Activity implements OnClickListene
 		Intent intent;
 		switch(v.getId()) {
 			case R.id.main:
-				intent = new Intent(this, GTR_MainActivity.class);
-				startActivity(intent);
+				finish();
 				break;
 			default:
 				Button b = (Button)v;
 				GTR_Controller.playSong((String)b.getText());
 				intent = new Intent(this, GTR_SequencerActivity.class);
 				startActivity(intent);
+				finish();
 				break;
 		}
 		

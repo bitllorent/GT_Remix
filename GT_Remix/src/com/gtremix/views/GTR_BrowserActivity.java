@@ -123,8 +123,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 			break;
 		case R.id.main:
 			Log.d(TAG, "Main menu button pressed");
-			Intent intent = new Intent(this, GTR_MainActivity.class);
-			startActivity(intent);
+			finish();
 			break;
 		default:
 			Button b = (Button)v;
@@ -192,6 +191,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 				sendMessage(M.ADD_SONG, data);
 				Intent intent = new Intent(this, GTR_PlaylistActivity.class);
 				startActivity(intent);
+				finish();
 			}
 			return;
 		}
@@ -199,8 +199,9 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 			if(isSeqFile(path)){
 				data.putString(M.KEY_FILE, path);
 				sendMessage(M.LOAD_SEQUENCE, data);
-				Intent intent = new Intent(this, GTR_SequencerActivity.class);
-				startActivity(intent);
+				finish();
+				//Intent intent = new Intent(this, GTR_SequencerActivity.class);
+				//startActivity(intent);
 			}
 		}
 		
@@ -214,7 +215,7 @@ public class GTR_BrowserActivity extends GTR_Activity implements OnClickListener
 	 */
 	private static boolean isMusicFile(String filename) {
 		int len = filename.length();
-		if(filename.substring(len-4, len).equals(".mp3"))
+		if(filename.substring(len-4, len).equals(".wav"))
 		{
 			return true;
 		}
